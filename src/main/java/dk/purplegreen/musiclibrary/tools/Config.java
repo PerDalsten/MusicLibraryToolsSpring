@@ -34,7 +34,6 @@ import dk.purplegreen.musiclibrary.tools.model.Song;
 @Configuration
 @ComponentScan(basePackageClasses = { Action.class })
 @PropertySource("classpath:musiclibrarytoolsspring.properties")
-//@EnableTransactionManagement(proxyTargetClass = true)
 @EnableTransactionManagement
 public class Config {
 
@@ -91,8 +90,7 @@ public class Config {
 			return jaxbMarshaller;
 		}
 	}
-	
-	
+
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -111,9 +109,9 @@ public class Config {
 
 	@Bean
 	public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
-	    DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-	    dataSourceTransactionManager.setDataSource(dataSource);
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
+		dataSourceTransactionManager.setDataSource(dataSource);
 
-	    return dataSourceTransactionManager;
+		return dataSourceTransactionManager;
 	}
 }

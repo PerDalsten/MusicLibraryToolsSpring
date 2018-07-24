@@ -16,9 +16,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 
 import dk.purplegreen.musiclibrary.tools.action.Action;
-import dk.purplegreen.musiclibrary.tools.action.DerbyExportAction;
 import dk.purplegreen.musiclibrary.tools.action.DerbyImportAction;
-
 
 public class MusicLibraryToolsSpring {
 
@@ -56,14 +54,10 @@ public class MusicLibraryToolsSpring {
 						throw new UnsupportedOperationException("Not implemented yet");
 					} else if ("activemq".equals(commandLine.getOptionValue("i"))) {
 						throw new UnsupportedOperationException("Not implemented yet");
+					} else {
+						action = Optional.of(ctx.getBean("derbyExportAction", Action.class));
 					}
-					else {
-						//action = Optional.of(ctx.getBean(DerbyExportAction.class));
-						//Generated default proxy can only be assigned/cast to Action
-						//-alternative: use @EnableTransactionManagement(proxyTargetClass = true) CGLIB
-						action = Optional.of(ctx.getBean("derbyExportAction",Action.class));
-					}
-				} 
+				}
 				action.get().execute();
 			}
 
@@ -78,32 +72,24 @@ public class MusicLibraryToolsSpring {
 	}
 
 	private static Options configureOptions() {
-		Options options = new Options();		
-		
+		Options options = new Options();
+
 		options.addOption(Option.builder("h").longOpt("help").desc("Print help").build());
 
 		options.addOption(Option.builder("e").longOpt("export")
-				.desc("Export to external system [derby,mongodb,activemq] from XML").hasArg().argName("target").build()
+				.desc("Export to external system [derby,mongodb,activemq] from XML").hasArg().argName("target")
+				.build());
 
-		);
-
-		options.addOption(Option.builder("i")
-
-				.longOpt("import").desc("Import to XML from external system [derby,mongodb]")
-				// .optionalArg(true)
-				.hasArg().argName("source").build()
-
-		);
+		options.addOption(Option.builder("i").longOpt("import")
+				.desc("Import to XML from external system [derby,mongodb]").hasArg().argName("source").build());
 
 		return options;
 	}
 
 	private static void showHelp(Options options) {
-
 		final HelpFormatter helpFormatter = new HelpFormatter();
 
 		helpFormatter.printHelp(MusicLibraryToolsSpring.class.getName(), options);
-
 	}
 
 }

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +16,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.oxm.Unmarshaller;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +68,7 @@ public class DerbyExportAction implements Action {
 			}
 		}
 	}
-	//@Transactional
+
 	private void saveAlbums(List<Album> albums) {
 
 		for (Album album : albums) {
@@ -88,38 +84,23 @@ public class DerbyExportAction implements Action {
 				return ps;
 			}, keyHolder);
 
-			List<Object[]> args=new ArrayList<>();
-			for(Song song: album.getSongs()) {
-				
-				//XXX
-				if("Bitter Root".equals(song.getTitle())) {
-					throw new IllegalArgumentException("BAD SONG!!!");
-				}
-				
-				
-				args.add(new Object[] {keyHolder.getKey().intValue(),song.getTitle(),song.getTrack(),song.getDisc()});							
-			}
-			
-			jdbcTemplate.batchUpdate(INSERT_SONG_SQL, args);
-			
-		}
+			List<Object[]> args = new ArrayList<>();
+			for (Song song : album.getSongs()) {
 
+				args.add(new Object[] { keyHolder.getKey().intValue(), song.getTitle(), song.getTrack(),
+						song.getDisc() });
+			}
+
+			jdbcTemplate.batchUpdate(INSERT_SONG_SQL, args);
+		}
 	}
 
-	// cchable
 	private Integer getArtistID(String artist) {
 
 		Integer artistId = jdbcTemplate.query(SELECT_ARTIST_SQL, rs -> rs.next() ? rs.getInt("id") : null, artist);
 		if (artistId == null) {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
-			/*
-			 * jdbcTemplate.update(new PreparedStatementCreator() {
-			 * 
-			 * @Override public PreparedStatement createPreparedStatement(Connection conn)
-			 * throws SQLException { PreparedStatement ps =
-			 * conn.prepareStatement(INSERT_ARTIST_SQL, Statement.RETURN_GENERATED_KEYS);
-			 * ps.setString(1, artist); return ps; } }, keyHolder);
-			 */
+
 			jdbcTemplate.update(conn -> {
 				PreparedStatement ps = conn.prepareStatement(INSERT_ARTIST_SQL, Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, artist);

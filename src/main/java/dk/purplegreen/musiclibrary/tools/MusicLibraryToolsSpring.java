@@ -19,6 +19,7 @@ import dk.purplegreen.musiclibrary.tools.action.Action;
 import dk.purplegreen.musiclibrary.tools.action.DerbyExportAction;
 import dk.purplegreen.musiclibrary.tools.action.DerbyImportAction;
 
+
 public class MusicLibraryToolsSpring {
 
 	private static final Logger log = LogManager.getLogger(MusicLibraryToolsSpring.class);
@@ -57,10 +58,12 @@ public class MusicLibraryToolsSpring {
 						throw new UnsupportedOperationException("Not implemented yet");
 					}
 					else {
-						action = Optional.of(ctx.getBean(DerbyExportAction.class));
+						//action = Optional.of(ctx.getBean(DerbyExportAction.class));
+						//Generated default proxy can only be assigned/cast to Action
+						//-alternative: use @EnableTransactionManagement(proxyTargetClass = true) CGLIB
+						action = Optional.of(ctx.getBean("derbyExportAction",Action.class));
 					}
-				}
-
+				} 
 				action.get().execute();
 			}
 
@@ -75,8 +78,8 @@ public class MusicLibraryToolsSpring {
 	}
 
 	private static Options configureOptions() {
-		Options options = new Options();
-
+		Options options = new Options();		
+		
 		options.addOption(Option.builder("h").longOpt("help").desc("Print help").build());
 
 		options.addOption(Option.builder("e").longOpt("export")

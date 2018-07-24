@@ -34,6 +34,7 @@ import dk.purplegreen.musiclibrary.tools.model.Song;
 @Configuration
 @ComponentScan(basePackageClasses = { Action.class })
 @PropertySource("classpath:musiclibrarytoolsspring.properties")
+//@EnableTransactionManagement(proxyTargetClass = true)
 @EnableTransactionManagement
 public class Config {
 

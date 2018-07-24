@@ -72,7 +72,7 @@ public class DerbyExportAction implements Action {
 			}
 		}
 	}
-
+	//@Transactional
 	private void saveAlbums(List<Album> albums) {
 
 		for (Album album : albums) {

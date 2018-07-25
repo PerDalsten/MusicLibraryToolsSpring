@@ -17,7 +17,6 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import dk.purplegreen.musiclibrary.tools.action.Action;
 import dk.purplegreen.musiclibrary.tools.action.JDBCImportAction;
-import dk.purplegreen.musiclibrary.tools.action.JMSExportAction;
 
 public class MusicLibraryToolsSpring {
 
@@ -31,14 +30,13 @@ public class MusicLibraryToolsSpring {
 
 			AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
 			ctx.registerShutdownHook();
-			
-			if(log.isDebugEnabled()) {
+
+			if (log.isDebugEnabled()) {
 				log.debug("Beans in context:");
-				for(String beanDefinition : ctx.getBeanDefinitionNames()) {
+				for (String beanDefinition : ctx.getBeanDefinitionNames()) {
 					log.debug(beanDefinition);
 				}
 			}
-			
 
 			final CommandLineParser commandLineParser = new DefaultParser();
 
@@ -62,7 +60,7 @@ public class MusicLibraryToolsSpring {
 					if ("mongodb".equals(commandLine.getOptionValue("e"))) {
 						throw new UnsupportedOperationException("Not implemented yet");
 					} else if ("activemq".equals(commandLine.getOptionValue("e"))) {
-						action = Optional.of(ctx.getBean("jmsExportAction",Action.class));
+						action = Optional.of(ctx.getBean("jmsExportAction", Action.class));
 					} else {
 						action = Optional.of(ctx.getBean("jdbcExportAction", Action.class));
 					}
@@ -86,11 +84,10 @@ public class MusicLibraryToolsSpring {
 		options.addOption(Option.builder("h").longOpt("help").desc("Print help").build());
 
 		options.addOption(Option.builder("e").longOpt("export")
-				.desc("Export to external system [derby,mongodb,activemq] from XML").hasArg().argName("target")
-				.build());
+				.desc("Export to external system [jdbc,mongodb,activemq] from XML").hasArg().argName("target").build());
 
 		options.addOption(Option.builder("i").longOpt("import")
-				.desc("Import to XML from external system [derby,mongodb]").hasArg().argName("source").build());
+				.desc("Import to XML from external system [jdbc,mongodb]").hasArg().argName("source").build());
 
 		return options;
 	}

@@ -19,6 +19,7 @@
 		<cache-api.version>1.1.0</cache-api.version>
 		<ehcache.version>3.5.2</ehcache.version>
 		<derby.version>10.14.2.0</derby.version>
+		<hsql.version>2.4.1</hsql.version>	
 		<activemq.version>5.15.3</activemq.version>
 		<jackson.version>2.9.5</jackson.version>
 	</properties>
@@ -98,6 +99,12 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
 			<version>${derby.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

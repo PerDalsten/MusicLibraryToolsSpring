@@ -102,19 +102,23 @@ public class Config {
 	}
 
 	@Bean
-	public DataSource dataSource() {
+	@Value("${database}")
+	public DataSource dataSource(String database) {
+
+		log.debug("Database: {}", database);
+
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(environment.getRequiredProperty("derby.driver"));
-		dataSource.setUrl(environment.getRequiredProperty("derby.url"));
-		dataSource.setUsername(environment.getRequiredProperty("derby.username"));
-		dataSource.setPassword(environment.getRequiredProperty("derby.password"));
+		dataSource.setDriverClassName(environment.getRequiredProperty(database + ".driver"));
+		dataSource.setUrl(environment.getRequiredProperty(database + ".url"));
+		dataSource.setUsername(environment.getRequiredProperty(database + ".username"));
+		dataSource.setPassword(environment.getRequiredProperty(database + ".password"));
 
 		return dataSource;
 	}
 
 	@Bean
-	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource());
+	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
 	}
 
 	@Bean
@@ -132,24 +136,18 @@ public class Config {
 
 		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager());
 	}
-	
+
 	@Bean
-    public ActiveMQConnectionFactory connectionFactory(){
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        /*
-        connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-        connectionFactory.setTrustedPackages(Arrays.asList("com.websystique.springmvc"));
-        */
-        return connectionFactory;
-    }
-     
-    @Bean
-    public JmsTemplate jmsTemplate(){
-        JmsTemplate template = new JmsTemplate();
-        template.setConnectionFactory(connectionFactory());
-        template.setDefaultDestinationName("TestQueue");
-        return template;
-    }
-	
-	
+	public ActiveMQConnectionFactory connectionFactory() {
+		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+		return connectionFactory;
+	}
+
+	@Bean
+	public JmsTemplate jmsTemplate() {
+		JmsTemplate template = new JmsTemplate();
+		template.setConnectionFactory(connectionFactory());
+		template.setDefaultDestinationName("TestQueue");
+		return template;
+	}
 }

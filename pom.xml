@@ -20,6 +20,7 @@
 		<ehcache.version>3.5.2</ehcache.version>
 		<derby.version>10.14.2.0</derby.version>
 		<activemq.version>5.15.3</activemq.version>
+		<jackson.version>2.9.5</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -72,6 +73,11 @@
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>${xstream.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.cache</groupId>

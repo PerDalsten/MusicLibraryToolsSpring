@@ -16,7 +16,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 
 import dk.purplegreen.musiclibrary.tools.action.Action;
-import dk.purplegreen.musiclibrary.tools.action.DerbyImportAction;
+import dk.purplegreen.musiclibrary.tools.action.JDBCImportAction;
+import dk.purplegreen.musiclibrary.tools.action.JDBCExportAction;
 
 public class MusicLibraryToolsSpring {
 
@@ -30,6 +31,12 @@ public class MusicLibraryToolsSpring {
 
 			AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
 			ctx.registerShutdownHook();
+			
+			/*
+			for(String bean: ctx.getBeanDefinitionNames()) {
+				System.out.println(bean);
+			}
+			*/
 
 			final CommandLineParser commandLineParser = new DefaultParser();
 
@@ -47,7 +54,7 @@ public class MusicLibraryToolsSpring {
 					if ("mongodb".equals(commandLine.getOptionValue("i"))) {
 						throw new UnsupportedOperationException("Not implemented yet");
 					} else {
-						action = Optional.of(ctx.getBean(DerbyImportAction.class));
+						action = Optional.of(ctx.getBean(JDBCImportAction.class));
 					}
 				} else if (commandLine.hasOption("e")) {
 					if ("mongodb".equals(commandLine.getOptionValue("i"))) {
@@ -55,7 +62,7 @@ public class MusicLibraryToolsSpring {
 					} else if ("activemq".equals(commandLine.getOptionValue("i"))) {
 						throw new UnsupportedOperationException("Not implemented yet");
 					} else {
-						action = Optional.of(ctx.getBean("derbyExportAction", Action.class));
+						action = Optional.of(ctx.getBean("jdbcExportAction", Action.class));						
 					}
 				}
 				action.get().execute();

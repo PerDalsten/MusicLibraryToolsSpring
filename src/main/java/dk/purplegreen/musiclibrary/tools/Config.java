@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.cache.Caching;
+import javax.cache.configuration.MutableConfiguration;
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,9 +36,10 @@ import dk.purplegreen.musiclibrary.tools.action.Action;
 import dk.purplegreen.musiclibrary.tools.model.Album;
 import dk.purplegreen.musiclibrary.tools.model.AlbumCollection;
 import dk.purplegreen.musiclibrary.tools.model.Song;
+import dk.purplegreen.musiclibrary.tools.persistence.JDBCDAO;
 
 @Configuration
-@ComponentScan(basePackageClasses = { Action.class })
+@ComponentScan(basePackageClasses = { Action.class, JDBCDAO.class })
 @PropertySource("classpath:musiclibrarytoolsspring.properties")
 @EnableTransactionManagement
 @EnableCaching
@@ -124,14 +126,12 @@ public class Config {
 	@Bean
     public CacheManager cacheManager() throws URISyntaxException {
 		
+		MutableConfiguration<String, Integer> configuration = new MutableConfiguration<>();
 		
-		//return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager());
+		Caching.getCachingProvider().getCacheManager().createCache("artistid-cache", configuration);
+		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager());
 		
 		
-		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager(
-	            getClass().getResource("/ehcache.xml").toURI(),
-	            getClass().getClassLoader()
-	        ));
-	      
+		
 	}
 }

@@ -147,7 +147,7 @@ public class Config {
 	public JmsTemplate jmsTemplate() {
 		JmsTemplate template = new JmsTemplate();
 		template.setConnectionFactory(connectionFactory());
-		template.setDefaultDestinationName("TestQueue");
+		template.setDefaultDestinationName(environment.getRequiredProperty("activemq.destination"));
 		return template;
 	}
 }

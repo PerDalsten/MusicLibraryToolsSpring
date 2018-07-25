@@ -49,6 +49,11 @@
 			additivity="false">
 			<AppenderRef ref="Spring" />
 		</Logger>
+		
+		<Logger name="org.ehcache" level="DEBUG"
+			additivity="false">
+			<AppenderRef ref="Spring" />
+		</Logger>
 	</Loggers>
 
 </Configuration>

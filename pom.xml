@@ -15,7 +15,9 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<springframework.version>4.3.17.RELEASE</springframework.version>
 		<log4j.version>2.8.2</log4j.version>
-		<xstream.version>1.4.10</xstream.version>	
+		<xstream.version>1.4.10</xstream.version>
+		<cache-api.version>1.1.0</cache-api.version>
+		<ehcache.version>3.5.2</ehcache.version>	
 		<derby.version>10.14.2.0</derby.version>			
 	</properties>
 
@@ -36,6 +38,11 @@
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${springframework.version}</version>
@@ -51,9 +58,24 @@
 			<version>${springframework.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>${xstream.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+			<version>${cache-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>${ehcache.version}</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.apache.derby</groupId>

@@ -1,15 +1,20 @@
 package dk.purplegreen.musiclibrary.tools;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.cache.Caching;
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +40,7 @@ import dk.purplegreen.musiclibrary.tools.model.Song;
 @ComponentScan(basePackageClasses = { Action.class })
 @PropertySource("classpath:musiclibrarytoolsspring.properties")
 @EnableTransactionManagement
+@EnableCaching
 public class Config {
 
 	private static final Logger log = LogManager.getLogger(Config.class);
@@ -113,5 +119,19 @@ public class Config {
 		dataSourceTransactionManager.setDataSource(dataSource);
 
 		return dataSourceTransactionManager;
+	}
+	
+	@Bean
+    public CacheManager cacheManager() throws URISyntaxException {
+		
+		
+		//return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager());
+		
+		
+		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager(
+	            getClass().getResource("/ehcache.xml").toURI(),
+	            getClass().getClassLoader()
+	        ));
+	      
 	}
 }

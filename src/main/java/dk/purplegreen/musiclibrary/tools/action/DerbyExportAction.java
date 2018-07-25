@@ -9,11 +9,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.cache.annotation.CacheResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -74,7 +76,7 @@ public class DerbyExportAction implements Action {
 		for (Album album : albums) {
 
 			Integer artistId = getArtistID(album.getArtist());
-
+/*
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			jdbcTemplate.update(conn -> {
 				PreparedStatement ps = conn.prepareStatement(INSERT_ALBUM_SQL, Statement.RETURN_GENERATED_KEYS);
@@ -92,10 +94,23 @@ public class DerbyExportAction implements Action {
 			}
 
 			jdbcTemplate.batchUpdate(INSERT_SONG_SQL, args);
+			*/
 		}
 	}
 
-	private Integer getArtistID(String artist) {
+	@Cacheable("cache")
+	public Integer getArtistID(String artist) {
+		System.out.println("Artist: "+artist);
+		log.debug("Lookup artist: {}", artist);
+		return 42;
+	}
+	
+	@Cacheable("cache")
+	//@Cacheable
+	//@CacheResult(cacheName="cache")
+	public Integer getArtistIDZZZ(String artist) {
+		
+		log.debug("Lookup artist: {}", artist);
 
 		Integer artistId = jdbcTemplate.query(SELECT_ARTIST_SQL, rs -> rs.next() ? rs.getInt("id") : null, artist);
 		if (artistId == null) {

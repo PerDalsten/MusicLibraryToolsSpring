@@ -2,7 +2,6 @@ package dk.purplegreen.musiclibrary.tools.persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -84,7 +81,6 @@ public class JDBCDAO {
 
 		List<Object[]> args = new ArrayList<>();
 		for (Song song : album.getSongs()) {
-
 			args.add(new Object[] { keyHolder.getKey().intValue(), song.getTitle(), song.getTrack(), song.getDisc() });
 		}
 
@@ -94,24 +90,16 @@ public class JDBCDAO {
 	public List<Album> getAlbums() {
 		Map<Integer, Album> albumMap = new HashMap<>();
 
-		List<Album> albums = jdbcTemplate.query(SELECT_ALBUMS_SQL, new RowMapper<Album>() {
-			@Override
-			public Album mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Album album = new Album(rs.getString("artist"), rs.getString("title"), rs.getInt("yr"));
-				albumMap.put(rs.getInt("id"), album);
-
-				log.debug("Adding album: {}", album);
-				return album;
-			}
+		List<Album> albums = jdbcTemplate.query(SELECT_ALBUMS_SQL, (ResultSet rs, int rowNum) -> {
+			Album album = new Album(rs.getString("artist"), rs.getString("title"), rs.getInt("yr"));
+			albumMap.put(rs.getInt("id"), album);
+			log.debug("Adding album: {}", album);
+			return album;
 		});
 
-		jdbcTemplate.query(SELECT_SONGS_SQL, new RowCallbackHandler() {
-
-			@Override
-			public void processRow(ResultSet rs) throws SQLException {
-				Album album = albumMap.get(rs.getInt("album_id"));
-				album.getSongs().add(new Song(rs.getString("title"), rs.getInt("track"), rs.getInt("disc")));
-			}
+		jdbcTemplate.query(SELECT_SONGS_SQL, rs -> {
+			Album album = albumMap.get(rs.getInt("album_id"));
+			album.getSongs().add(new Song(rs.getString("title"), rs.getInt("track"), rs.getInt("disc")));
 		});
 
 		return albums;

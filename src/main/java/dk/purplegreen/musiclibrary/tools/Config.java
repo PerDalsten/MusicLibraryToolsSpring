@@ -9,6 +9,7 @@ import javax.cache.Caching;
 import javax.cache.configuration.MutableConfiguration;
 import javax.sql.DataSource;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -122,16 +124,32 @@ public class Config {
 
 		return dataSourceTransactionManager;
 	}
+
+	@Bean
+	public CacheManager cacheManager() throws URISyntaxException {
+		MutableConfiguration<String, Integer> configuration = new MutableConfiguration<>();
+		Caching.getCachingProvider().getCacheManager().createCache("artistid-cache", configuration);
+
+		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager());
+	}
 	
 	@Bean
-    public CacheManager cacheManager() throws URISyntaxException {
-		
-		MutableConfiguration<String, Integer> configuration = new MutableConfiguration<>();
-		
-		Caching.getCachingProvider().getCacheManager().createCache("artistid-cache", configuration);
-		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager());
-		
-		
-		
-	}
+    public ActiveMQConnectionFactory connectionFactory(){
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+        /*
+        connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
+        connectionFactory.setTrustedPackages(Arrays.asList("com.websystique.springmvc"));
+        */
+        return connectionFactory;
+    }
+     
+    @Bean
+    public JmsTemplate jmsTemplate(){
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory());
+        template.setDefaultDestinationName("TestQueue");
+        return template;
+    }
+	
+	
 }

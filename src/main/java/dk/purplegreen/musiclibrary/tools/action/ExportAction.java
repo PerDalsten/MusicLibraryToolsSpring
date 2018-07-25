@@ -20,17 +20,17 @@ public abstract class ExportAction implements Action {
 
 	@Autowired
 	private Environment environment;
-	
+
 	private Unmarshaller unmarshaller;
-	
-	protected  ExportAction(Unmarshaller unmarshaller) {
-		this.unmarshaller=unmarshaller;	
+
+	protected ExportAction(Unmarshaller unmarshaller) {
+		this.unmarshaller = unmarshaller;
 	}
-		
+
 	@Override
 	@Transactional
 	public void execute() throws IOException {
-		
+
 		File albumDir = new File(environment.getRequiredProperty("albumdir"));
 
 		File[] albumCollections = albumDir.listFiles(file -> !file.isDirectory() && file.getName().endsWith(".xml"));
@@ -43,10 +43,7 @@ public abstract class ExportAction implements Action {
 				saveAlbums(albums.getAlbums());
 			}
 		}
-		
-		
-
 	}
-	
-	protected abstract void  saveAlbums(List<Album> albums);
+
+	protected abstract void saveAlbums(List<Album> albums);
 }

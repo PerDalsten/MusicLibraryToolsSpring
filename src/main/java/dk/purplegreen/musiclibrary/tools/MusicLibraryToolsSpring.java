@@ -17,7 +17,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import dk.purplegreen.musiclibrary.tools.action.Action;
 import dk.purplegreen.musiclibrary.tools.action.JDBCImportAction;
-import dk.purplegreen.musiclibrary.tools.action.JDBCExportAction;
+import dk.purplegreen.musiclibrary.tools.action.JMSExportAction;
 
 public class MusicLibraryToolsSpring {
 
@@ -32,11 +32,13 @@ public class MusicLibraryToolsSpring {
 			AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
 			ctx.registerShutdownHook();
 			
-			/*
-			for(String bean: ctx.getBeanDefinitionNames()) {
-				System.out.println(bean);
+			if(log.isDebugEnabled()) {
+				log.debug("Beans in context:");
+				for(String beanDefinition : ctx.getBeanDefinitionNames()) {
+					log.debug(beanDefinition);
+				}
 			}
-			*/
+			
 
 			final CommandLineParser commandLineParser = new DefaultParser();
 
@@ -57,12 +59,12 @@ public class MusicLibraryToolsSpring {
 						action = Optional.of(ctx.getBean(JDBCImportAction.class));
 					}
 				} else if (commandLine.hasOption("e")) {
-					if ("mongodb".equals(commandLine.getOptionValue("i"))) {
+					if ("mongodb".equals(commandLine.getOptionValue("e"))) {
 						throw new UnsupportedOperationException("Not implemented yet");
-					} else if ("activemq".equals(commandLine.getOptionValue("i"))) {
-						throw new UnsupportedOperationException("Not implemented yet");
+					} else if ("activemq".equals(commandLine.getOptionValue("e"))) {
+						action = Optional.of(ctx.getBean("jmsExportAction",Action.class));
 					} else {
-						action = Optional.of(ctx.getBean("jdbcExportAction", Action.class));						
+						action = Optional.of(ctx.getBean("jdbcExportAction", Action.class));
 					}
 				}
 				action.get().execute();

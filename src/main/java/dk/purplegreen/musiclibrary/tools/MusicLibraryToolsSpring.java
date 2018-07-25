@@ -65,7 +65,10 @@ public class MusicLibraryToolsSpring {
 						action = Optional.of(ctx.getBean("jdbcExportAction", Action.class));
 					}
 				}
-				action.get().execute();
+
+				if (action.isPresent()) {
+					action.get().execute();
+				}
 			}
 
 		} catch (UnrecognizedOptionException | MissingArgumentException e) {

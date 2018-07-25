@@ -1,6 +1,5 @@
 package dk.purplegreen.musiclibrary.tools;
 
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +69,7 @@ public class Config {
 		xstreamMarshaller.setAnnotatedClasses(classes);
 
 		jaxbMarshaller.setClassesToBeBound(classes);
-		Map<String, Object> properties = new HashMap<String, Object>();
+		Map<String, Object> properties = new HashMap<>();
 		properties.put(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		jaxbMarshaller.setMarshallerProperties(properties);
 	}
@@ -130,7 +129,7 @@ public class Config {
 	}
 
 	@Bean
-	public CacheManager cacheManager() throws URISyntaxException {
+	public CacheManager cacheManager() {
 		MutableConfiguration<String, Integer> configuration = new MutableConfiguration<>();
 		Caching.getCachingProvider().getCacheManager().createCache("artistid-cache", configuration);
 
@@ -139,8 +138,7 @@ public class Config {
 
 	@Bean
 	public ActiveMQConnectionFactory connectionFactory() {
-		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-		return connectionFactory;
+		return new ActiveMQConnectionFactory();
 	}
 
 	@Bean

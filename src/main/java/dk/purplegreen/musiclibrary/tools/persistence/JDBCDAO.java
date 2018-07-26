@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,7 +21,8 @@ import dk.purplegreen.musiclibrary.tools.model.Album;
 import dk.purplegreen.musiclibrary.tools.model.Song;
 
 @Repository
-public class JDBCDAO {
+@Qualifier("jdbcDAO")
+public class JDBCDAO implements DAO {
 
 	private static final String SELECT_ARTIST_SQL = "SELECT id FROM artist WHERE artist_name = ?";
 
@@ -44,6 +46,7 @@ public class JDBCDAO {
 	}
 
 	@Cacheable("artistid-cache")
+	@Override
 	public Integer getArtistID(String artist) {
 
 		log.debug("Lookup artist: {}", artist);
@@ -69,11 +72,12 @@ public class JDBCDAO {
 		return artistId;
 	}
 
-	public void saveAlbum(Album album, Integer artistId) {
+	@Override
+	public void saveAlbum(Album album) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(conn -> {
 			PreparedStatement ps = conn.prepareStatement(INSERT_ALBUM_SQL, Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, artistId);
+			ps.setInt(1, Integer.valueOf(album.getId()));
 			ps.setString(2, album.getTitle());
 			ps.setInt(3, album.getYear());
 			return ps;
@@ -87,6 +91,7 @@ public class JDBCDAO {
 		jdbcTemplate.batchUpdate(INSERT_SONG_SQL, args);
 	}
 
+	@Override
 	public List<Album> getAlbums() {
 		Map<Integer, Album> albumMap = new HashMap<>();
 

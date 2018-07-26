@@ -6,22 +6,23 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dk.purplegreen.musiclibrary.tools.model.Album;
-import dk.purplegreen.musiclibrary.tools.persistence.JDBCDAO;
+import dk.purplegreen.musiclibrary.tools.persistence.DAO;
 
 @Service("jdbcExportAction")
 public class JDBCExportAction extends ExportAction {
 
 	private static final Logger log = LogManager.getLogger(JDBCExportAction.class);
 
-	private JDBCDAO dao;
+	private DAO dao;
 
 	@Autowired
-	public JDBCExportAction(Unmarshaller unmarshaller, JDBCDAO dao) {
+	public JDBCExportAction(Unmarshaller unmarshaller, @Qualifier("jdbcDAO") DAO dao) {
 		super(unmarshaller);
 		this.dao = dao;
 	}
@@ -38,7 +39,9 @@ public class JDBCExportAction extends ExportAction {
 		for (Album album : albums) {
 			Integer artistId = dao.getArtistID(album.getArtist());
 
-			dao.saveAlbum(album, artistId);
+			album.setId(artistId.toString());
+			
+			dao.saveAlbum(album);
 		}
 	}
 }

@@ -40,10 +40,10 @@ import dk.purplegreen.musiclibrary.tools.action.Action;
 import dk.purplegreen.musiclibrary.tools.model.Album;
 import dk.purplegreen.musiclibrary.tools.model.AlbumCollection;
 import dk.purplegreen.musiclibrary.tools.model.Song;
-import dk.purplegreen.musiclibrary.tools.persistence.JDBCDAO;
+import dk.purplegreen.musiclibrary.tools.persistence.DAO;
 
 @Configuration
-@ComponentScan(basePackageClasses = { Action.class, JDBCDAO.class })
+@ComponentScan(basePackageClasses = { Action.class, DAO.class })
 @PropertySource("classpath:musiclibrarytoolsspring.properties")
 @EnableTransactionManagement
 @EnableCaching

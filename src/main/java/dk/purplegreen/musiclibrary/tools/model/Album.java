@@ -6,6 +6,7 @@ import java.util.StringJoiner;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.springframework.data.annotation.Id;
@@ -20,6 +21,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class Album {
 	@Id
 	@XStreamOmitField
+	/**
+	 * Id field for auto-generated MongoDB document id or artistId for JDBC.
+	 */
 	private String id;
 	private String title;
 	private String artist;
@@ -32,6 +36,15 @@ public class Album {
 		this.artist = artist;
 		this.title = title;
 		this.year = year;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	@XmlTransient
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getTitle() {

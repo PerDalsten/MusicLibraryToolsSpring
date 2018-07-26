@@ -11,7 +11,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.oxm.Unmarshaller;
-import org.springframework.transaction.annotation.Transactional;
 
 import dk.purplegreen.musiclibrary.tools.model.Album;
 import dk.purplegreen.musiclibrary.tools.model.AlbumCollection;
@@ -28,7 +27,6 @@ public abstract class ExportAction implements Action {
 	}
 
 	@Override
-	@Transactional
 	public void execute() throws IOException {
 
 		File albumDir = new File(environment.getRequiredProperty("albumdir"));

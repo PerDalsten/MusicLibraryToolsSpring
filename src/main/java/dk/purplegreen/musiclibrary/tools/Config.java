@@ -21,6 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -31,6 +32,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.thoughtworks.xstream.XStream;
 
 import dk.purplegreen.musiclibrary.tools.action.Action;
@@ -147,5 +150,15 @@ public class Config {
 		template.setConnectionFactory(connectionFactory());
 		template.setDefaultDestinationName(environment.getRequiredProperty("activemq.destination"));
 		return template;
+	}
+
+	@Bean
+	public Mongo mongo() throws Exception {
+		return new MongoClient("localhost");
+	}
+
+	@Bean
+	public MongoTemplate mongoTemplate() throws Exception {
+		return new MongoTemplate(mongo(), environment.getRequiredProperty("mongo.db"));
 	}
 }

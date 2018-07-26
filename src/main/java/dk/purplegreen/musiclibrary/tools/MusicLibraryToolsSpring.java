@@ -17,6 +17,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import dk.purplegreen.musiclibrary.tools.action.Action;
 import dk.purplegreen.musiclibrary.tools.action.JDBCImportAction;
+import dk.purplegreen.musiclibrary.tools.action.MongoDBImportAction;
 
 public class MusicLibraryToolsSpring {
 
@@ -28,6 +29,7 @@ public class MusicLibraryToolsSpring {
 
 		try {
 
+			@SuppressWarnings("resource")
 			AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
 			ctx.registerShutdownHook();
 
@@ -52,13 +54,13 @@ public class MusicLibraryToolsSpring {
 				if (commandLine.hasOption("i")) {
 
 					if ("mongodb".equals(commandLine.getOptionValue("i"))) {
-						throw new UnsupportedOperationException("Not implemented yet");
+						action = Optional.of(ctx.getBean(MongoDBImportAction.class));
 					} else {
 						action = Optional.of(ctx.getBean(JDBCImportAction.class));
 					}
 				} else if (commandLine.hasOption("e")) {
 					if ("mongodb".equals(commandLine.getOptionValue("e"))) {
-						throw new UnsupportedOperationException("Not implemented yet");
+						action = Optional.of(ctx.getBean("mongoDBExportAction", Action.class));
 					} else if ("activemq".equals(commandLine.getOptionValue("e"))) {
 						action = Optional.of(ctx.getBean("jmsExportAction", Action.class));
 					} else {

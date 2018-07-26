@@ -8,11 +8,19 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias("album")
 @XmlType(propOrder = { "artist", "title", "year", "songs" })
+@Document(collection = "albums")
 public class Album {
+	@Id
+	@XStreamOmitField
+	private String id;
 	private String title;
 	private String artist;
 	private int year;

@@ -24,5 +24,4 @@ public class JDBCImportAction extends ImportAction {
 	protected List<Album> getAlbums() {		
 		return dao.getAlbums();
 	}
-
 }

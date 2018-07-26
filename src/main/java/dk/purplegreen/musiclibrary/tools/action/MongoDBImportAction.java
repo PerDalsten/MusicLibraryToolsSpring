@@ -26,5 +26,4 @@ public class MongoDBImportAction extends ImportAction {
 	protected List<Album> getAlbums() {
 		return mongoDBDAO.getAllAlbums();
 	}
-
 }

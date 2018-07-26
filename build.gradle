@@ -36,7 +36,8 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.5" 
     compile 'javax.cache:cache-api:1.1.0'
     compile 'org.ehcache:ehcache:3.5.2'
-    compile 'org.apache.activemq:activemq-client:5.15.3' 
+    compile 'org.apache.activemq:activemq-client:5.15.3'
+    compile 'org.springframework.data:spring-data-mongodb:1.10.13.RELEASE'
 
     runtime 'org.apache.derby:derbyclient:10.14.2.0'
     runtime 'org.hsqldb:hsqldb:2.4.1'

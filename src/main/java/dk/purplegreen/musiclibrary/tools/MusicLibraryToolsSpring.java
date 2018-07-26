@@ -45,9 +45,7 @@ public class MusicLibraryToolsSpring {
 			CommandLine commandLine = commandLineParser.parse(options, args);
 
 			if (args.length == 0 || commandLine.hasOption("h")) {
-
 				showHelp(options);
-
 			} else {
 				Optional<Action> action = Optional.empty();
 
@@ -102,5 +100,4 @@ public class MusicLibraryToolsSpring {
 
 		helpFormatter.printHelp(MusicLibraryToolsSpring.class.getName(), options);
 	}
-
 }

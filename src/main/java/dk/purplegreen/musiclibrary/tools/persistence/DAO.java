@@ -7,5 +7,7 @@ import dk.purplegreen.musiclibrary.tools.model.Album;
 public interface DAO {
 	void saveAlbum(Album album);
 	List<Album> getAlbums();
-	Integer getArtistID(String artist);
+	default Integer getArtistID(String artist) {
+		throw new UnsupportedOperationException("getArtistID not supported in this DAO");		
+	};
 }

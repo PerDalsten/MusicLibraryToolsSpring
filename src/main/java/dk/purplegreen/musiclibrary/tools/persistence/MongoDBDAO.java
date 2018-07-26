@@ -27,10 +27,4 @@ public class MongoDBDAO implements DAO {
 	public List<Album> getAlbums() {
 		return mongoTemplate.findAll(Album.class);
 	}
-
-	@Override
-	public Integer getArtistID(String artist) {
-		throw new UnsupportedOperationException();
-	}
-
 }

@@ -5,7 +5,7 @@
 	<groupId>dk.purplegreen.musiclibrary</groupId>
 	<artifactId>MusicLibraryToolsSpring</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>MusicLibraryToolsSpring</name>
 	<url>http://www.purplegreen.dk/musiclibrarytoolsspring</url>
 

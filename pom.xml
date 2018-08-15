@@ -19,6 +19,7 @@
 		<cache-api.version>1.1.0</cache-api.version>
 		<ehcache.version>3.5.2</ehcache.version>
 		<derby.version>10.14.2.0</derby.version>
+		<mysql.version>5.1.46</mysql.version>	
 		<hsql.version>2.4.1</hsql.version>	
 		<activemq.version>5.15.3</activemq.version>
 		<jackson.version>2.9.6</jackson.version>
@@ -104,6 +105,12 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
 			<version>${derby.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

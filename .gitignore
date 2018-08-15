@@ -18,3 +18,4 @@ logs
 bin
 build
 .gradle
+/.springBeans

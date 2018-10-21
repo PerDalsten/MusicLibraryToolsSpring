@@ -75,9 +75,9 @@ public class MusicLibraryToolsSpring {
 			log.error("Exception caught parsing commandline", e);
 			showHelp(options);
 		}
-
 		catch (Exception e) {
 			log.error("Exception caught in main", e);
+			System.out.println("An error occurred - please consult the log for details.");
 		}
 	}
 

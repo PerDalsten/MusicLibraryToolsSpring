@@ -2,7 +2,7 @@ plugins {
   id "org.sonarqube" version "2.6"
 }
 
-version = '1.2.5-SNAPSHOT'
+version = '1.2.5'
 
 apply plugin: 'java'
 sourceCompatibility = 1.8
@@ -16,7 +16,7 @@ repositories {
 
 ext {
 	log4jVersion = '2.8.2'
-	springVersion = '5.0.8.RELEASE'
+	springVersion = '5.1.1.RELEASE'
 }
 
 dependencies {
@@ -35,7 +35,7 @@ dependencies {
     compile 'com.thoughtworks.xstream:xstream:1.4.10'
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.6"
     compile 'javax.cache:cache-api:1.1.0'
-    compile 'org.ehcache:ehcache:3.5.2'
+    compile 'org.ehcache:ehcache:3.6.1'
     compile 'org.apache.activemq:activemq-client:5.15.6'
     compile 'org.springframework.data:spring-data-mongodb:1.10.13.RELEASE'
 

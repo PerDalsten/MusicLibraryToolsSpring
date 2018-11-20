@@ -61,6 +61,8 @@ public class MusicLibraryToolsSpring {
 						action = Optional.of(ctx.getBean("mongoDBExportAction", Action.class));
 					} else if ("activemq".equals(commandLine.getOptionValue("e"))) {
 						action = Optional.of(ctx.getBean("jmsExportAction", Action.class));
+					} else if ("json".equals(commandLine.getOptionValue("e"))) {
+						action = Optional.of(ctx.getBean("jsonExportAction", Action.class));	
 					} else {
 						action = Optional.of(ctx.getBean("jdbcExportAction", Action.class));
 					}
@@ -87,7 +89,7 @@ public class MusicLibraryToolsSpring {
 		options.addOption(Option.builder("h").longOpt("help").desc("Print help").build());
 
 		options.addOption(Option.builder("e").longOpt("export")
-				.desc("Export to external system [jdbc,mongodb,activemq] from XML").hasArg().argName("target").build());
+				.desc("Export to external system [jdbc,mongodb,activemq,json] from XML").hasArg().argName("target").build());
 
 		options.addOption(Option.builder("i").longOpt("import")
 				.desc("Import to XML from external system [jdbc,mongodb]").hasArg().argName("source").build());

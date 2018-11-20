@@ -32,6 +32,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.thoughtworks.xstream.XStream;
@@ -160,5 +161,11 @@ public class Config {
 	@Bean
 	public MongoTemplate mongoTemplate() throws Exception {
 		return new MongoTemplate(mongo(), environment.getRequiredProperty("mongo.db"));
+	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper;
 	}
 }

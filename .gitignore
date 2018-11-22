@@ -17,5 +17,6 @@ logs
 
 bin
 build
+out
 .gradle
 /.springBeans

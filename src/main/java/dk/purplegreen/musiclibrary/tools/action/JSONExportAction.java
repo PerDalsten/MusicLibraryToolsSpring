@@ -3,6 +3,7 @@ package dk.purplegreen.musiclibrary.tools.action;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,8 @@ public class JSONExportAction extends ExportAction {
 			jAlbums.add(jAlbum);
 		}
 
+		jAlbums.sort(Comparator.comparing(JSONAlbum::getTitle));
+				
 		try {
 			File albumFile = new File(new File(environment.getRequiredProperty("albumdir")), "albums.js");
 			
@@ -71,21 +74,39 @@ public class JSONExportAction extends ExportAction {
 	}
 
 	public static class JSONArtist {
-		public long id;
-		public String name;
+		private long id;
+		private String name;
 
 		JSONArtist(long id, String name) {
 			this.id = id;
 			this.name = name;
 		}
+
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		
 	}
 
 	public static class JSONAlbum {
-		public long id;
-		public JSONArtist artist;
-		public String title;
-		public int year;
-		public List<JSONSong> songs;
+		private long id;
+		private JSONArtist artist;
+		private String title;
+		private int year;
+		private List<JSONSong> songs;
 
 		JSONAlbum(long id, JSONArtist artist, String title, int year, List<JSONSong> songs) {
 			this.id = id;
@@ -94,13 +115,53 @@ public class JSONExportAction extends ExportAction {
 			this.year = year;
 			this.songs = songs;
 		}
+
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
+
+		public JSONArtist getArtist() {
+			return artist;
+		}
+
+		public void setArtist(JSONArtist artist) {
+			this.artist = artist;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public int getYear() {
+			return year;
+		}
+
+		public void setYear(int year) {
+			this.year = year;
+		}
+
+		public List<JSONSong> getSongs() {
+			return songs;
+		}
+
+		public void setSongs(List<JSONSong> songs) {
+			this.songs = songs;
+		}			
 	}
 
 	public static class JSONSong {
-		public long id;
-		public String title;
-		public int track;
-		public int disc;
+		private long id;
+		private String title;
+		private int track;
+		private int disc;
 
 		JSONSong(long id, String title, int track, int disc) {
 			this.id = id;
@@ -108,6 +169,40 @@ public class JSONExportAction extends ExportAction {
 			this.track = track;
 			this.disc = disc;
 		}
+
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public int getTrack() {
+			return track;
+		}
+
+		public void setTrack(int track) {
+			this.track = track;
+		}
+
+		public int getDisc() {
+			return disc;
+		}
+
+		public void setDisc(int disc) {
+			this.disc = disc;
+		}
+		
+		
 	}
 
 }

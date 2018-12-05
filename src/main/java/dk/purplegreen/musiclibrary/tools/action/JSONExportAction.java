@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dk.purplegreen.musiclibrary.tools.model.Album;
@@ -61,11 +62,11 @@ public class JSONExportAction extends ExportAction {
 			jAlbums.add(jAlbum);
 		}
 
-		jAlbums.sort(Comparator.comparing(JSONAlbum::getTitle));
-				
+		jAlbums.sort(Comparator.comparing(JSONAlbum::getUncasedTitle).thenComparing(a -> a.getArtist().getName()));
+
 		try {
 			File albumFile = new File(new File(environment.getRequiredProperty("albumdir")), "albums.js");
-			
+
 			mapper.writeValue(albumFile, jAlbums);
 
 		} catch (IOException e) {
@@ -86,19 +87,10 @@ public class JSONExportAction extends ExportAction {
 			return id;
 		}
 
-		public void setId(long id) {
-			this.id = id;
-		}
-
 		public String getName() {
 			return name;
 		}
 
-		public void setName(String name) {
-			this.name = name;
-		}
-		
-		
 	}
 
 	public static class JSONAlbum {
@@ -107,6 +99,7 @@ public class JSONExportAction extends ExportAction {
 		private String title;
 		private int year;
 		private List<JSONSong> songs;
+		private String uncasedTitle;
 
 		JSONAlbum(long id, JSONArtist artist, String title, int year, List<JSONSong> songs) {
 			this.id = id;
@@ -114,47 +107,33 @@ public class JSONExportAction extends ExportAction {
 			this.title = title;
 			this.year = year;
 			this.songs = songs;
+			this.uncasedTitle = title.toLowerCase();
 		}
 
 		public long getId() {
 			return id;
 		}
 
-		public void setId(long id) {
-			this.id = id;
-		}
-
 		public JSONArtist getArtist() {
 			return artist;
-		}
-
-		public void setArtist(JSONArtist artist) {
-			this.artist = artist;
 		}
 
 		public String getTitle() {
 			return title;
 		}
 
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
 		public int getYear() {
 			return year;
-		}
-
-		public void setYear(int year) {
-			this.year = year;
 		}
 
 		public List<JSONSong> getSongs() {
 			return songs;
 		}
 
-		public void setSongs(List<JSONSong> songs) {
-			this.songs = songs;
-		}			
+		@JsonIgnore
+		public String getUncasedTitle() {
+			return uncasedTitle;
+		}						
 	}
 
 	public static class JSONSong {
@@ -174,35 +153,16 @@ public class JSONExportAction extends ExportAction {
 			return id;
 		}
 
-		public void setId(long id) {
-			this.id = id;
-		}
-
 		public String getTitle() {
 			return title;
-		}
-
-		public void setTitle(String title) {
-			this.title = title;
 		}
 
 		public int getTrack() {
 			return track;
 		}
 
-		public void setTrack(int track) {
-			this.track = track;
-		}
-
 		public int getDisc() {
 			return disc;
 		}
-
-		public void setDisc(int disc) {
-			this.disc = disc;
-		}
-		
-		
 	}
-
 }

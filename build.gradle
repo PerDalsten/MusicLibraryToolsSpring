@@ -16,7 +16,7 @@ repositories {
 
 ext {
 	log4jVersion = '2.8.2'
-	springVersion = '5.1.1.RELEASE'
+	springVersion = '5.1.6.RELEASE'
 }
 
 dependencies {
@@ -32,17 +32,18 @@ dependencies {
     compile "org.springframework:spring-context-support:${springVersion}"
     compile "org.springframework:spring-jms:${springVersion}"
     
-    compile 'com.thoughtworks.xstream:xstream:1.4.10'
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.6"
+    compile 'com.thoughtworks.xstream:xstream:1.4.11.1'
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
     compile 'javax.cache:cache-api:1.1.0'
-    compile 'org.ehcache:ehcache:3.6.1'
-    compile 'org.apache.activemq:activemq-client:5.15.6'
-    compile 'org.springframework.data:spring-data-mongodb:1.10.13.RELEASE'
+    compile 'org.ehcache:ehcache:3.7.0'
+    compile 'org.apache.activemq:activemq-client:5.15.9'
+    compile 'org.springframework.data:spring-data-mongodb:1.10.20.RELEASE'
 
     runtime 'org.apache.derby:derbyclient:10.14.2.0'
     runtime 'org.hsqldb:hsqldb:2.4.1'
 
     testCompile 'junit:junit:4.12'
+    testCompile "org.springframework:spring-test:${springVersion}"
 }
 
 mainClassName = 'dk.purplegreen.musiclibrary.tools.MusicLibraryToolsSpring'

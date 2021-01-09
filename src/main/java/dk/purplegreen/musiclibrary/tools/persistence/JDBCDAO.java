@@ -33,7 +33,7 @@ public class JDBCDAO implements DAO {
 	private static final String INSERT_SONG_SQL = "INSERT INTO song (album_id, song_title, track, disc) VALUES (?,?,?,?)";
 
 	private static final String SELECT_ALBUMS_SQL = "SELECT album.id AS id, album.album_title AS title, album.album_year AS yr, artist.artist_name AS artist "
-			+ "FROM album " + "JOIN artist ON artist.id=album.artist_id " + "ORDER BY artist, yr";
+			+ "FROM album " + "JOIN artist ON artist.id=album.artist_id " + "ORDER BY artist, yr, title";
 
 	private static final String SELECT_SONGS_SQL = "SELECT album_id, song_title AS title, track, disc FROM song ORDER BY album_id, disc, track";
 

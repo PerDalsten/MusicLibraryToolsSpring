@@ -23,7 +23,7 @@
 		<hsql.version>2.4.1</hsql.version>
 		<spring-data-mongodb.version>1.10.20.RELEASE</spring-data-mongodb.version>		
 		<activemq.version>5.15.9</activemq.version>
-		<jackson.version>2.9.8</jackson.version>
+		<jackson.version>2.9.10.8</jackson.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 

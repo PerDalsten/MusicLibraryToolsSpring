@@ -21,7 +21,7 @@
 		<derby.version>10.14.2.0</derby.version>
 		<mysql.version>5.1.46</mysql.version>	
 		<hsql.version>2.4.1</hsql.version>
-		<spring-data-mongodb.version>1.10.20.RELEASE</spring-data-mongodb.version>		
+		<spring-data-mongodb.version>3.3.5</spring-data-mongodb.version>		
 		<activemq.version>5.15.9</activemq.version>
 		<jackson.version>2.9.8</jackson.version>
 		<junit.version>4.12</junit.version>
